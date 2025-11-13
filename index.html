@@ -478,6 +478,31 @@
   </div>
 </footer>
 <script>
+  // PRICING TABS SWITCHER
+document.querySelectorAll(".pricing-tabs .tab").forEach(tab => {
+    tab.addEventListener("click", function () {
+
+        // Remove active class from all tabs
+        document.querySelectorAll(".pricing-tabs .tab")
+            .forEach(t => t.classList.remove("active"));
+
+        // Add active to clicked tab
+        this.classList.add("active");
+
+        const target = this.getAttribute("data-target");
+
+        // Hide all pricing grids
+        document.querySelectorAll(".pricing-grid")
+            .forEach(grid => grid.classList.remove("active"));
+
+        // Show selected pricing grid
+        document.getElementById(target).classList.add("active");
+
+        // Scroll into view smoothly (optional)
+        
+        });
+    });
+
   // --- Fade-in animation ---
   document.addEventListener("DOMContentLoaded", () => {
     document.body.classList.add("fade-in");
@@ -518,6 +543,46 @@
       }
     });
   });
+
+  document.addEventListener("DOMContentLoaded", () => {
+
+    const currencySelect = document.getElementById("currencySelect");
+    const balanceSelect = document.getElementById("balanceSelect");
+
+    const accountSizes = [5000, 10000, 25000, 50000, 100000, 200000, 300000, 500000];
+
+    const currencyFormat = {
+        USD: { symbol: "$", rate: 1 },
+        EUR: { symbol: "€", rate: 0.92 },
+        CAD: { symbol: "CAD ", rate: 1.36 },
+        YEN: { symbol: "¥", rate: 152.4 }
+    };
+
+    function updateAccountSizeLabels() {
+        const chosenCurrency = currencySelect.value;
+        const settings = currencyFormat[chosenCurrency];
+
+        balanceSelect.innerHTML = ""; // clear dropdown
+
+        accountSizes.forEach(size => {
+            let converted = Math.round(size * settings.rate).toLocaleString();
+            let option = document.createElement("option");
+
+            option.value = size;   // internal USD value stays same
+            option.textContent = settings.symbol + converted;
+
+            balanceSelect.appendChild(option);
+        });
+    }
+
+    // On load
+    updateAccountSizeLabels();
+
+    // When currency changes
+    currencySelect.addEventListener("change", updateAccountSizeLabels);
+});
+
+  
 </script>
 <!-- === SCRIPT === -->
 <script>

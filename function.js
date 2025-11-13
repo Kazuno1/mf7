@@ -73,3 +73,30 @@ document.querySelectorAll(".pricing-tabs .tab").forEach(tab => {
   });
 });
 
+// PRICING TABS SWITCHER
+document.querySelectorAll(".pricing-tabs .tab").forEach(tab => {
+    tab.addEventListener("click", function () {
+
+        // Remove active class from all tabs
+        document.querySelectorAll(".pricing-tabs .tab")
+            .forEach(t => t.classList.remove("active"));
+
+        // Add active to clicked tab
+        this.classList.add("active");
+
+        const target = this.getAttribute("data-target");
+
+        // Hide all pricing grids
+        document.querySelectorAll(".pricing-grid")
+            .forEach(grid => grid.classList.remove("active"));
+
+        // Show selected pricing grid
+        document.getElementById(target).classList.add("active");
+
+        // Scroll into view smoothly (optional)
+        document.getElementById(target).scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+    });
+});
